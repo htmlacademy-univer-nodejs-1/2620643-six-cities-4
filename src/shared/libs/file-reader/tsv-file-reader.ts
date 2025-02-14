@@ -39,8 +39,8 @@ export class TSVFileReader implements FileReader {
           commentCount,
           coordinates,
         ]) => ({
-          title,  description,
-
+          title,
+          description,
           date: new Date(date),
           town,
           image,
