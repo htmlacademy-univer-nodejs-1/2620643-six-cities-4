@@ -1,0 +1,2 @@
+Cozy Apartment in Paris	Beautiful apartment in the heart of Paris	2025-02-11	Paris	image1.jpg	["img1.jpg","img2.jpg"]	true	false	5	apartment	2	4	120	["Breakfast","Washer"]	{"name":"Alice","avatar":"alice.jpg","isPro":true}	0	{"latitude":48.85661,"longitude":2.351499}
+Luxury Hotel in Amsterdam	5-star hotel with great service	2025-02-11	Amsterdam	image2.jpg	["img3.jpg","img4.jpg"]	true	true	4	hotel	1	2	250	["Towels","Fridge","Air conditioning"]	{"name":"Bob","avatar":"bob.jpg","isPro":false}	0	{"latitude": 52.370216, "longitude": 4.895168}
