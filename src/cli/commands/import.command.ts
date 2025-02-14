@@ -1,10 +1,10 @@
-import chalk from "chalk";
-import { TSVFileReader } from "../../shared/libs/file-reader/tsv-file-reader.js";
-import { Command } from "./command.interface.js";
+import chalk from 'chalk';
+import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
+import { Command } from './command.interface.js';
 
 export class ImportCommand implements Command {
   public getName() {
-    return "--import";
+    return '--import';
   }
 
   public execute(...parametrs: string[]): void {
@@ -20,7 +20,7 @@ export class ImportCommand implements Command {
         throw err;
       }
 
-      console.error("Cant import from this file");
+      console.error('Cant import from this file');
       console.error(`Details: ${err.message}`);
     }
   }

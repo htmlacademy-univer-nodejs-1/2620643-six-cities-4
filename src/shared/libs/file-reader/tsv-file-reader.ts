@@ -2,23 +2,23 @@ import { readFileSync } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
 
 export class TSVFileReader implements FileReader {
-  private rawData = "";
+  private rawData = '';
 
   constructor(private readonly filename: string) {}
 
   public read() {
-    this.rawData = readFileSync(this.filename, { encoding: "utf-8" });
+    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
   }
 
   public toArray() {
     if (!this.rawData) {
-      throw new Error("File is not read");
+      throw new Error('File is not read');
     }
 
     return this.rawData
-      .split("\n")
+      .split('\n')
       .filter((row) => row.trim().length > 0)
-      .map((line) => line.split("\t"))
+      .map((line) => line.split('\t'))
       .map(
         ([
           title,
