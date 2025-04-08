@@ -7,6 +7,10 @@ import { Logger } from './shared/libs/logger/index.js';
 import { RestSchema } from './shared/libs/config/rest.schema.js';
 import { Config } from './shared/libs/config/index.js';
 import 'reflect-metadata';
+import {
+  DatabaseClient,
+  MongoDatabaseClient,
+} from './shared/libs/database-client/index.js';
 
 async function bootstrap() {
   const container = new Container();
@@ -18,6 +22,10 @@ async function bootstrap() {
   container
     .bind<Config<RestSchema>>(Component.Config)
     .to(RestConfig)
+    .inSingletonScope();
+  container
+    .bind<DatabaseClient>(Component.DatabaseClient)
+    .to(MongoDatabaseClient)
     .inSingletonScope();
 
   const application = container.get<Application>(Component.Application);
