@@ -1,4 +1,4 @@
 export type Command = {
   getName(): string;
-  execute(...parametrs: string[]) : void;
-}
+  execute(...parametrs: string[]): void;
+};
