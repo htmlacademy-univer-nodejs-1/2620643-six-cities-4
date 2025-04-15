@@ -1,0 +1,768 @@
+openapi: 3.1.0
+info:
+  title: API сервер для демо-проекта «Шесть городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+  - name: users
+    description: Действия с пользователями.
+paths:
+  /comments:
+    post:
+      tags:
+        - comments
+      summary: Создать комментарий
+      description: Создание комментария
+
+      requestBody:
+        description: Информация для создания нового комментария.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+
+      responses:
+        '201':
+          description: Новый комментарий создан.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев
+      description: Получение списка комментариев по номеру предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6329c3d6a04ab1061c6425eo
+          description: ID предложения, для которого запрашиваются комментарии
+
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            maximum: 50
+            example: 10
+          description: Количество комментариев для получения
+
+      responses:
+        '200':
+          description: Список комментариев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя.
+      description: Регистрация нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        '201':
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        '409':
+          description: Пользователь с таким mail уже существует
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя.
+      description: Возвращает информацию по авторизированном пользователю.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений
+      description: Список предложений по аренде. По умолчанию возвращает до 60. Можно задать нужное количество через параметр запроса.
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 60
+            example: 10
+          description: Количество предложений для возврата
+      responses:
+        '200':
+          description: Список предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerSummary'
+    post:
+      tags:
+        - offers
+      summary: Создать предложение
+      description: Создание предложения
+
+      requestBody:
+        description: Информация для создания предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+
+      responses:
+        '200':
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получить подробную информацию
+      description: Получение подробной информации
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6329c3d6a04ab1061c6425ef
+          description: Идентификатор предложения
+
+      responses:
+        '200':
+          description: Предложение успешно найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        '404':
+          description: Предложение не найдено
+
+    patch:
+      tags:
+        - offers
+      summary: Изменить предложение
+      description: Изменение предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6329c3d6a04ab1061c6425ef
+          description: Идентификатор предложения
+
+      requestBody:
+        description: Информация для редактирования предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOffer'
+        required: true
+
+      responses:
+        '200':
+          description: Предложение успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Неверные данные
+        '404':
+          description: Предложение не найдено
+
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение
+      description: Удаление предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6329c3d6a04ab1061c6425ef
+          description: Идентификатор предложения
+      responses:
+        '204':
+          description: Предложение успешно удалено
+        '404':
+          description: Предложение не найдено
+
+  /offers/{town}/premium:
+    get:
+      tags:
+        - offers
+      summary: Получить премиальные предложения по городу
+      description: Список до 3 премиальных предложений в указанном городе
+
+      parameters:
+        - name: town
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+          description: Название города
+
+      responses:
+        '200':
+          description: Список премиальных предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerSummary'
+  /offers/favourites:
+    get:
+      tags:
+        - offers
+      summary: Получить избранные предложения
+      description: Список всех предложений, добавленных в избранное текущим пользователем
+      responses:
+        '200':
+          description: Список избранных предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerSummary'
+
+  /offers/{offerId}/favorite:
+    post:
+      tags:
+        - offers
+      summary: Добавить предложение в избранное
+      description: Добавляет предложение в список избранных текущего пользователя
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID предложения
+      responses:
+        '200':
+          description: Предложение добавлено в избранное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerSummary'
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение из избранного
+      description: Удаляет предложение из списка избранных текущего пользователя
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID предложения
+      responses:
+        '200':
+          description: Предложение удалено из избранного
+
+components:
+  schemas:
+    createUser:
+      type: object
+      required: [mail, name, password, type]
+
+      properties:
+        mail:
+          type: string
+          example: keks@htmlacademy.ru
+
+        name:
+          type: string
+          example: Keks
+
+        avatar:
+          type: [string, 'null']
+          example: https://gravatar.com/avatar/7cb23e9dcb44eeff5331a137414a0f1b?s=400&d=robohash&r=x
+
+        password:
+          type: string
+          example: 123456
+
+        type:
+          type: string
+          enum: [обычный, pro]
+          example: обычный
+
+    user:
+      type: object
+      required: [id, mail, name, type]
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        mail:
+          type: string
+          example: keks@htmlacademy.ru
+
+        name:
+          type: string
+          example: Keks
+
+        avatar:
+          type: [string, 'null']
+          example: https://gravatar.com/avatar/7cb23e9dcb44eeff5331a137414a0f1b?s=400&d=robohash&r=x
+
+        type:
+          type: string
+          enum: [обычный, pro]
+          example: обычный
+
+    updateOffer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Modern Loft in Berlin
+
+        description:
+          type: string
+          example: Spacious loft with a great city view
+
+        image:
+          type: string
+          example: image3.jpg
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        cost:
+          type: number
+          example: 180
+
+        town:
+          type: string
+          enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+          example: Paris
+
+        gallery:
+          type: array
+          items:
+            type: string
+          example: [img5.jpg, img6.jpg]
+
+        isPremium:
+          type: boolean
+          example: true
+
+        isFavorite:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4.5
+
+        apartmentType:
+          type: string
+          enum: [apartment, house, room, hotel]
+          example: apartment
+
+        roomCount:
+          type: integer
+          example: 4
+
+        guestCount:
+          type: integer
+          example: 4
+
+        amenities:
+          type: array
+          items:
+            type: string
+            enum:
+              [
+                Breakfast,
+                Air conditioning,
+                Laptop friendly workspace,
+                Baby seat,
+                Washer,
+                Towels,
+                Fridge,
+              ]
+            example: [Fridge, Breakfast, Washer]
+
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    createOffer:
+      type: object
+      required:
+        [
+          title,
+          description,
+          image,
+          date,
+          cost,
+          town,
+          gallery,
+          isPremium,
+          isFavorite,
+          rating,
+          apartmentType,
+          roomCount,
+          guestCount,
+          amenities,
+          userId,
+        ]
+
+      properties:
+        title:
+          type: string
+          example: Modern Loft in Berlin
+
+        description:
+          type: string
+          example: Spacious loft with a great city view
+
+        image:
+          type: string
+          example: image3.jpg
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        cost:
+          type: number
+          example: 180
+
+        town:
+          type: string
+          enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+          example: Paris
+
+        gallery:
+          type: array
+          items:
+            type: string
+          example: [img5.jpg, img6.jpg]
+
+        isPremium:
+          type: boolean
+          example: true
+
+        isFavorite:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4.5
+
+        apartmentType:
+          type: string
+          enum: [apartment, house, room, hotel]
+          example: apartment
+
+        roomCount:
+          type: integer
+          example: 4
+
+        guestCount:
+          type: integer
+          example: 4
+
+        amenities:
+          type: array
+          items:
+            type: string
+            enum:
+              [
+                Breakfast,
+                Air conditioning,
+                Laptop friendly workspace,
+                Baby seat,
+                Washer,
+                Towels,
+                Fridge,
+              ]
+            example: [Fridge, Breakfast, Washer]
+
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    offerSummary:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425eo
+
+        title:
+          type: string
+          example: Modern Loft in Berlin
+
+        cost:
+          type: number
+          example: 180
+
+        apartmentType:
+          type: string
+          enum: [apartment, house, room, hotel]
+          example: apartment
+
+        isFavorite:
+          type: boolean
+          example: true
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        town:
+          type: string
+          enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+          example: Paris
+
+        image:
+          type: string
+          example: image3.jpg
+
+        isPremium:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4.5
+
+        commentCount:
+          type: integer
+          example: 4
+
+    offer:
+      type: object
+      required:
+        [
+          id,
+          title,
+          description,
+          image,
+          date,
+          cost,
+          town,
+          gallery,
+          isPremium,
+          isFavorite,
+          rating,
+          apartmentType,
+          roomCount,
+          guestCount,
+          amenities,
+          userId,
+          commentCount,
+        ]
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ef
+
+        title:
+          type: string
+          example: Modern Loft in Berlin
+
+        description:
+          type: string
+          example: Spacious loft with a great city view
+
+        image:
+          type: string
+          example: image3.jpg
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        cost:
+          type: number
+          example: 180
+
+        town:
+          type: string
+          enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+          example: Paris
+
+        gallery:
+          type: array
+          items:
+            type: string
+          example: [img5.jpg, img6.jpg]
+
+        isPremium:
+          type: boolean
+          example: true
+
+        isFavorite:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4.5
+
+        apartmentType:
+          type: string
+          enum: [apartment, house, room, hotel]
+          example: apartment
+
+        roomCount:
+          type: integer
+          example: 4
+
+        guestCount:
+          type: integer
+          example: 4
+
+        amenities:
+          type: array
+          items:
+            type: string
+            enum:
+              [
+                Breakfast,
+                Air conditioning,
+                Laptop friendly workspace,
+                Baby seat,
+                Washer,
+                Towels,
+                Fridge,
+              ]
+            example: [Fridge, Breakfast, Washer]
+
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        commentCount:
+          type: integer
+          example: 4
+
+    createComment:
+      type: object
+      required: [text, date, rating, author]
+
+      properties:
+        text:
+          type: string
+          example: Оч понравился. Ставлю 5 из 5.
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        rating:
+          type: number
+          example: 5
+
+        author:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        offerId:
+          type: string
+          example: 6329c3d6a04ab1061c6425eo
+
+    comment:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ec
+
+        text:
+          type: string
+          example: Оч понравился. Ставлю 5 из 5.
+
+        date:
+          type: string
+          format: date
+          example: 2025-02-12
+
+        rating:
+          type: number
+          example: 5
+
+        author:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        offerId:
+          type: string
+          example: 6329c3d6a04ab1061c6425eo
