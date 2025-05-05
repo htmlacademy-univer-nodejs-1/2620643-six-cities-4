@@ -109,14 +109,6 @@ paths:
       summary: Проверка состояния пользователя.
       description: Возвращает информацию по авторизированном пользователю.
 
-  /users/{userId}/avatar:
-    post:
-      tags:
-        - users
-      summary: Загрузить изображение
-      description: Загружает изображение аватара пользователя. Изображение
-        аватара должно быть в формате `png` или `jpg`.
-
   /offers:
     get:
       tags:
@@ -128,7 +120,7 @@ paths:
           in: query
           schema:
             type: integer
-            default: 60
+            maximum: 60
             example: 10
           description: Количество предложений для возврата
       responses:
@@ -238,6 +230,10 @@ paths:
       responses:
         '204':
           description: Предложение успешно удалено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
         '404':
           description: Предложение не найдено
 
@@ -364,7 +360,7 @@ components:
           example: Keks
 
         avatar:
-          type: [string, 'null']
+          type: string
           example: https://gravatar.com/avatar/7cb23e9dcb44eeff5331a137414a0f1b?s=400&d=robohash&r=x
 
         type:
@@ -603,6 +599,10 @@ components:
           type: integer
           example: 4
 
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425eu
+
     offer:
       type: object
       required:
@@ -706,7 +706,7 @@ components:
 
         userId:
           type: string
-          example: 6329c3d6a04ab1061c6425ea
+          example: 6329c3d6a04ab1061c6425eu
 
         commentCount:
           type: integer
