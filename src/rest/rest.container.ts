@@ -7,6 +7,10 @@ import { DatabaseClient } from '../shared/libs/database-client/database-client.i
 import { MongoDatabaseClient } from '../shared/libs/database-client/mongo.database-client.js';
 import { Logger, PinoLogger } from '../shared/libs/logger/index.js';
 import { Config } from '../shared/libs/config/index.js';
+import {
+  AppExceptionFilter,
+  ExceptionFilter,
+} from '../shared/libs/rest/index.js';
 
 export function createRestApplicationContainer(container: Container) {
   container
@@ -21,5 +25,9 @@ export function createRestApplicationContainer(container: Container) {
   container
     .bind<DatabaseClient>(Component.DatabaseClient)
     .to(MongoDatabaseClient)
+    .inSingletonScope();
+  container
+    .bind<ExceptionFilter>(Component.ExceptionFilter)
+    .to(AppExceptionFilter)
     .inSingletonScope();
 }
