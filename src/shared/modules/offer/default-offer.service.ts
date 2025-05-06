@@ -12,9 +12,6 @@ import { TownType } from '../../types/town-type.enum.js';
 import { FavoriteEntity } from '../favorite/index.js';
 import { CommentEntity } from '../comment/comment.entity.js';
 
-// todo
-// Автоматический расчёт рейтинга
-
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
