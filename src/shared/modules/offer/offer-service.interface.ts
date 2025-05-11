@@ -11,10 +11,7 @@ export interface OfferService {
     userId: string,
     offerId: string
   ): Promise<(DocumentType<OfferEntity> & { isFavorite: boolean }) | null>;
-  find(
-    userId: string,
-    count?: number
-  ): Promise<DocumentType<OfferSummaryEntity>[]>;
+  find(count?: number): Promise<DocumentType<OfferSummaryEntity>[]>;
   updateById(
     offerId: string,
     dto: UpdateOfferDto
