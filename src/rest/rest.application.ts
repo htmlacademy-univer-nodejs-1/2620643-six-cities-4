@@ -22,7 +22,9 @@ export class Application {
     @inject(Component.UserController)
     private readonly userController: Controller,
     @inject(Component.OfferController)
-    private readonly offerController: Controller
+    private readonly offerController: Controller,
+    @inject(Component.CommentController)
+    private readonly commentController: Controller
   ) {
     this.server = express();
   }
@@ -46,6 +48,7 @@ export class Application {
   private async _initControllers() {
     this.server.use('/users', this.userController.router);
     this.server.use('/offers', this.offerController.router);
+    this.server.use('/comments', this.commentController.router);
   }
 
   private async _initMiddleware() {

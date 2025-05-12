@@ -12,12 +12,18 @@ import { OfferRdo, OfferService, OfferSummaryRdo } from './index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferRequest } from './type/update-offer-request.js';
+import { ParamOfferId } from './type/param-offerid.type.js';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { QueryCount } from './type/query-count.type.js';
+import { CommentRdo, CommentService } from '../comment/index.js';
 
 @injectable()
 export default class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) logger: Logger,
-    @inject(Component.OfferService) private readonly offerService: OfferService
+    @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.CommentService)
+    private readonly commentService: CommentService
   ) {
     super(logger);
 
@@ -76,13 +82,19 @@ export default class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.removeFromFavourites,
     });
+
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+    });
   }
 
   public async getAllOffers(
-    { query }: Request<{ count?: string }>,
+    { query }: Request<ParamsDictionary, unknown, unknown, QueryCount>,
     res: Response
   ): Promise<void> {
-    const count = query.count ? parseInt(query.count as string, 10) : 10;
+    const count = query.count ? parseInt(query.count, 10) : 10;
     const offers = await this.offerService.find(count);
 
     this.ok(res, fillDTO(OfferSummaryRdo, offers));
@@ -114,17 +126,18 @@ export default class OfferController extends BaseController {
     res: Response
   ): Promise<void> {
     const updatedOffer = await this.offerService.updateById(
-      params.offerId as string,
+      params.offerId,
       body
     );
 
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
-  public async deleteOffer({ params }: Request, res: Response): Promise<void> {
-    const deletedOffer = await this.offerService.deleteById(
-      params.offerId as string
-    );
+  public async deleteOffer(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
+    const deletedOffer = await this.offerService.deleteById(params.offerId);
 
     this.ok(res, fillDTO(OfferRdo, deletedOffer));
   }
@@ -168,5 +181,10 @@ export default class OfferController extends BaseController {
       'Not implemented',
       'OfferController'
     );
+  }
+
+  public async getComments({ params }: Request<ParamOfferId>, res: Response) {
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentRdo, comments));
   }
 }

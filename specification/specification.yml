@@ -39,39 +39,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/comment'
 
-  /comments/{offerId}:
-    get:
-      tags:
-        - comments
-      summary: Получить список комментариев
-      description: Получение списка комментариев по номеру предложения
-      parameters:
-        - name: offerId
-          in: path
-          required: true
-          schema:
-            type: string
-            example: 6329c3d6a04ab1061c6425eo
-          description: ID предложения, для которого запрашиваются комментарии
-
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            maximum: 50
-            example: 10
-          description: Количество комментариев для получения
-
-      responses:
-        '200':
-          description: Список комментариев
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/comment'
-
   /users/register:
     post:
       tags:
@@ -313,6 +280,39 @@ paths:
       responses:
         '200':
           description: Предложение удалено из избранного
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - offers
+      summary: Получить список комментариев
+      description: Получение списка комментариев по номеру предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6329c3d6a04ab1061c6425eo
+          description: ID предложения, для которого запрашиваются комментарии
+
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            maximum: 50
+            example: 10
+          description: Количество комментариев для получения
+
+      responses:
+        '200':
+          description: Список комментариев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
 
 components:
   schemas:

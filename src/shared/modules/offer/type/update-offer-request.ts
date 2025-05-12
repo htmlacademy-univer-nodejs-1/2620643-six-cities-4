@@ -1,10 +1,10 @@
 import { Request } from 'express';
-import { RequestParams } from '../../../libs/rest/types/request.params.type.js';
 import { RequestBody } from '../../../libs/rest/types/request-body.type.js';
 import { UpdateOfferDto } from '../dto/update-offer.dto.js';
+import { ParamOfferId } from './param-offerid.type.js';
 
 export type UpdateOfferRequest = Request<
-  RequestParams,
+  ParamOfferId,
   RequestBody,
   UpdateOfferDto
 >;
