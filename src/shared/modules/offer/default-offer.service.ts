@@ -27,7 +27,6 @@ export class DefaultOfferService implements OfferService {
   ) {}
 
   public async find(
-    userId: string,
     count?: number
   ): Promise<types.DocumentType<OfferSummaryEntity>[]> {
     const limit =
@@ -40,7 +39,7 @@ export class DefaultOfferService implements OfferService {
       .limit(limit ?? DEFAULT_OFFER_MAX_LIMIT)
       .exec();
 
-    return this.withFavorites(offers, userId);
+    return offers;
   }
 
   public async create(

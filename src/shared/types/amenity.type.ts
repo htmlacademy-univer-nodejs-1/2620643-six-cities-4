@@ -1,8 +1,3 @@
-export type Amenity =
-  | 'Breakfast'
-  | 'Air conditioning'
-  | 'Laptop friendly workspace'
-  | 'Baby seat'
-  | 'Washer'
-  | 'Towels'
-  | 'Fridge';
+import { AMENITY_VALUES } from './amenity.constant.js';
+
+export type Amenity = (typeof AMENITY_VALUES)[number];
