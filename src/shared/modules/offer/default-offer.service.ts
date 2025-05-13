@@ -26,6 +26,10 @@ export class DefaultOfferService implements OfferService {
     private readonly commentModel: types.ModelType<CommentEntity>
   ) {}
 
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({ _id: documentId })) !== null;
+  }
+
   public async find(
     count?: number
   ): Promise<types.DocumentType<OfferSummaryEntity>[]> {

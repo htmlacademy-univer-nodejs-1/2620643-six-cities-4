@@ -4,8 +4,10 @@ import { OfferEntity } from './offer.entity.js';
 import { OfferSummaryEntity } from './offerSummary.entity.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { TownType } from '../../types/town-type.enum.js';
+import { DocumentExists } from '../../types/document-exists.interface.js';
 
-export interface OfferService {
+export interface OfferService extends DocumentExists {
+  exists(documentId: string): Promise<boolean>;
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   findById(
     userId: string,
