@@ -7,3 +7,4 @@ export * from './user-type.enum.js';
 export * from './mock-server-data.type.js';
 export * from './offer-generator.interface.js';
 export * from './component.enum.js';
+export * from './amenity.constant.js';

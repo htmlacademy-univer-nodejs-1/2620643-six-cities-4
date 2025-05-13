@@ -4,11 +4,18 @@ import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateDtoMiddleware,
+  ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { OfferRdo, OfferService, OfferSummaryRdo } from './index.js';
+import {
+  CreateOfferDto,
+  OfferRdo,
+  OfferService,
+  OfferSummaryRdo,
+} from './index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferRequest } from './type/update-offer-request.js';
@@ -16,6 +23,7 @@ import { ParamOfferId } from './type/param-offerid.type.js';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { QueryCount } from './type/query-count.type.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
+import { UpdateOfferDto } from './dto/update-offer.dto.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -39,24 +47,31 @@ export default class OfferController extends BaseController {
       path: '/',
       method: HttpMethod.Post,
       handler: this.createOffer,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.getOfferById,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.updateOffer,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(UpdateOfferDto),
+      ],
     });
 
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.deleteOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
@@ -75,18 +90,21 @@ export default class OfferController extends BaseController {
       path: '/:offerId/favorite',
       method: HttpMethod.Post,
       handler: this.addToFavourites,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
       path: '/:offerId/favorite',
       method: HttpMethod.Delete,
       handler: this.removeFromFavourites,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
 
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
   }
 
