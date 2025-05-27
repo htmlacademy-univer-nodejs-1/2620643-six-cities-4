@@ -6,6 +6,7 @@ import { createOfferContainer } from './shared/modules/offer/index.js';
 import { createRestApplicationContainer } from './rest/rest.container.js';
 import { createUserContainer } from './shared/modules/user/index.js';
 import { createCommentContainer } from './shared/modules/comment/index.js';
+import { createAuthContainer } from './shared/modules/auth/index.js';
 
 async function bootstrap() {
   const container = new Container();
@@ -14,6 +15,7 @@ async function bootstrap() {
   createUserContainer(container);
   createOfferContainer(container);
   createCommentContainer(container);
+  createAuthContainer(container);
 
   const application = container.get<Application>(Component.Application);
   await application.init();

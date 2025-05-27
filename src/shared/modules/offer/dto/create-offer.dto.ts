@@ -6,7 +6,6 @@ import {
   IsDateString,
   IsEnum,
   IsIn,
-  IsMongoId,
   IsNumber,
   IsString,
   Max,
@@ -21,6 +20,7 @@ import { TownType } from '../../../types/town-type.enum.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 import { MaxDecimalPlaces } from '../../../helpers/index.js';
 import { AMENITY_VALUES } from '../../../types/index.js';
+import { Coordinates } from '../../../types/coordinates.type.js';
 
 export class CreateOfferDto {
   @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
@@ -91,6 +91,9 @@ export class CreateOfferDto {
   })
   public amenities!: Amenity[];
 
-  @IsMongoId({ message: CreateOfferValidationMessage.userId.invalidId })
   public userId!: string;
+
+  public commentCount!: number;
+
+  public coordinates!: Coordinates;
 }

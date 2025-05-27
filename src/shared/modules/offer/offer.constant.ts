@@ -1,1 +1,3 @@
 export const DEFAULT_OFFER_MAX_LIMIT = 60;
+
+export const DEFAULT_PREMIUM_BY_TOWN_MAX_LIMIT = 3;

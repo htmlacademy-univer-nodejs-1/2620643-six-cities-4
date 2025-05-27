@@ -22,7 +22,6 @@ export class CreateCommentDto {
   @Max(5, { message: CreateCommentMessages.rating.max })
   public rating!: string;
 
-  @IsMongoId({ message: CreateCommentMessages.author.invalidFormat })
   public author!: string;
 
   @IsMongoId({ message: CreateCommentMessages.offerId.invalidFormat })

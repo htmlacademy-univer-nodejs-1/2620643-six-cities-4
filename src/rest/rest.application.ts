@@ -6,7 +6,11 @@ import { Component } from '../shared/types/component.enum.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import express, { Express } from 'express';
-import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
+import {
+  Controller,
+  ExceptionFilter,
+  ParseTokenMiddleware,
+} from '../shared/libs/rest/index.js';
 
 @injectable()
 export class Application {
@@ -24,7 +28,9 @@ export class Application {
     @inject(Component.OfferController)
     private readonly offerController: Controller,
     @inject(Component.CommentController)
-    private readonly commentController: Controller
+    private readonly commentController: Controller,
+    @inject(Component.AuthExceptionFilter)
+    private readonly authExceptionFilter: ExceptionFilter
   ) {
     this.server = express();
   }
@@ -52,16 +58,26 @@ export class Application {
   }
 
   private async _initMiddleware() {
+    const authenticateMiddleware = new ParseTokenMiddleware(
+      this.config.get('JWT_SECRET')
+    );
+
     this.server.use(express.json());
     this.server.use(
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
+    );
+    this.server.use(
+      authenticateMiddleware.execute.bind(authenticateMiddleware)
     );
   }
 
   private async _initExceptionFilters() {
     this.server.use(
       this.appExceptionFilter.catch.bind(this.appExceptionFilter)
+    );
+    this.server.use(
+      this.authExceptionFilter.catch.bind(this.authExceptionFilter)
     );
   }
 
