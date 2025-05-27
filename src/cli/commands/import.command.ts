@@ -1,7 +1,10 @@
 import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
 import { Command } from './command.interface.js';
 import { createOffer } from '../../shared/helpers/offer.js';
-import { getErrorMessage } from '../../shared/helpers/common.js';
+import {
+  getCoordinatesByTown,
+  getErrorMessage,
+} from '../../shared/helpers/common.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
 import { DatabaseClient } from '../../shared/libs/database-client/database-client.interface.js';
 import { Logger } from '../../shared/libs/logger/logger.interface.js';
@@ -78,6 +81,8 @@ export class ImportCommand implements Command {
       roomCount: offer.roomCount,
       guestCount: offer.guestCount,
       amenities: offer.amenities,
+      commentCount: 0,
+      coordinates: getCoordinatesByTown(offer.town),
     });
   }
 

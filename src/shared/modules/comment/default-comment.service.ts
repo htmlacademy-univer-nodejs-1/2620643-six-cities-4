@@ -35,7 +35,11 @@ export class DefaultCommentService implements CommentService {
     return this.commentModel
       .find({ offerId })
       .limit(limit ?? DEFAULT_COMMENT_LIMIT)
-      .populate('author')
+      .sort({ date: -1 })
       .exec();
+  }
+
+  public async deleteByOfferId(offerId: string): Promise<void> {
+    await this.commentModel.deleteMany({ offerId }).exec();
   }
 }

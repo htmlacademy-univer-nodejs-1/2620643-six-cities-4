@@ -1,4 +1,6 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
+import { TownType } from '../types/town-type.enum.js';
+import { COORDINATES_BY_TOWN } from '../types/coordinates.constant.js';
 
 export function generateRandomValue(
   min: number,
@@ -33,4 +35,8 @@ export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDto, plainObject, {
     excludeExtraneousValues: true,
   });
+}
+
+export function getCoordinatesByTown(town: TownType) {
+  return COORDINATES_BY_TOWN[town];
 }

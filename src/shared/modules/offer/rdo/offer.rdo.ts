@@ -49,5 +49,8 @@ export class OfferRdo {
   public commentCount!: number;
 
   @Expose()
+  public coordinates!: number;
+
+  @Expose()
   public userId!: string;
 }

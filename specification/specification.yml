@@ -70,11 +70,35 @@ paths:
         - users
       summary: Авторизация пользователя
       description: Авторизует пользователя на основе логина и пароля
+
+      requestBody:
+        description: Информация для авторизации.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+        required: true
+
+      responses:
+        '201':
+          description: Пользователь авторизирован.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userAuthorized'
     get:
       tags:
         - users
       summary: Проверка состояния пользователя.
       description: Возвращает информацию по авторизированном пользователю.
+
+      responses:
+        '201':
+          description: Пользователь точно авторизирован.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/isAuthorized'
 
   /offers:
     get:
@@ -180,6 +204,8 @@ paths:
           description: Неверные данные
         '404':
           description: Предложение не найдено
+        '500':
+          description: Не является автором предложения
 
     delete:
       tags:
@@ -229,7 +255,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/offerSummary'
-  /offers/favourites:
+  /offers/favorites:
     get:
       tags:
         - offers
@@ -316,6 +342,19 @@ paths:
 
 components:
   schemas:
+    loginUser:
+      type: object
+      required: [mail, password]
+
+      properties:
+        mail:
+          type: string
+          example: keks@htmlacademy.ru
+
+        password:
+          type: string
+          example: 123456
+
     createUser:
       type: object
       required: [mail, name, password, type]
@@ -341,6 +380,26 @@ components:
           type: string
           enum: [обычный, pro]
           example: обычный
+
+    isAuthorized:
+      type: object
+
+      properties:
+        mail:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    userAuthorized:
+      type: object
+
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoia2Vrc0BodG1sYWNhZGVteS5ydSIsIm5hbWUiOiJLZWtzIiwiaWQiOiI2ODMzMWY5ODU5YTc5YTY0ZjhiZDQ3ODciLCJpYXQiOjE3NDgxODExOTgsImV4cCI6MTc0ODM1Mzk5OH0.E2ZC0I9ScvCWajCnJ-WgNbNzdbqa11oBsaZvFri08fE
+
+        mail:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
 
     user:
       type: object
@@ -402,7 +461,7 @@ components:
           type: array
           items:
             type: string
-          example: [img5.jpg, img6.jpg]
+          example: [img1.jpg, img2.jpg, img3.jpg, img4.jpg, img5.jpg, img6.jpg]
 
         isPremium:
           type: boolean
@@ -501,7 +560,7 @@ components:
           type: array
           items:
             type: string
-          example: [img5.jpg, img6.jpg]
+          example: [img1.jpg, img2.jpg, img3.jpg, img4.jpg, img5.jpg, img6.jpg]
 
         isPremium:
           type: boolean
@@ -533,20 +592,17 @@ components:
           items:
             type: string
             enum:
-              [
-                Breakfast,
-                Air conditioning,
-                Laptop friendly workspace,
-                Baby seat,
-                Washer,
-                Towels,
-                Fridge,
-              ]
-            example: [Fridge, Breakfast, Washer]
-
-        userId:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+          example:
+            - Fridge
+            - Breakfast
+            - Washer
 
     offerSummary:
       type: object
@@ -624,6 +680,7 @@ components:
           amenities,
           userId,
           commentCount,
+          coordinates,
         ]
 
       properties:
@@ -661,7 +718,7 @@ components:
           type: array
           items:
             type: string
-          example: [img5.jpg, img6.jpg]
+          example: [img1.jpg, img2.jpg, img3.jpg, img4.jpg, img5.jpg, img6.jpg]
 
         isPremium:
           type: boolean
@@ -693,16 +750,17 @@ components:
           items:
             type: string
             enum:
-              [
-                Breakfast,
-                Air conditioning,
-                Laptop friendly workspace,
-                Baby seat,
-                Washer,
-                Towels,
-                Fridge,
-              ]
-            example: [Fridge, Breakfast, Washer]
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+          example:
+            - Fridge
+            - Breakfast
+            - Washer
 
         userId:
           type: string
@@ -711,6 +769,10 @@ components:
         commentCount:
           type: integer
           example: 4
+
+        coordinates:
+          type: object
+          example: { latitude: 48.85661, longitude: 2.351499 }
 
     createComment:
       type: object

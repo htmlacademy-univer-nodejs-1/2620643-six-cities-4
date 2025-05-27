@@ -23,6 +23,9 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   public author!: string;
 
   @prop()
+  public date!: Date;
+
+  @prop()
   public offerId!: string;
 }
 

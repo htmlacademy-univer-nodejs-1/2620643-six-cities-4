@@ -10,25 +10,29 @@ export interface OfferService extends DocumentExists {
   exists(documentId: string): Promise<boolean>;
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   findById(
-    userId: string,
-    offerId: string
+    offerId: string,
+    userId: string | null
   ): Promise<(DocumentType<OfferEntity> & { isFavorite: boolean }) | null>;
-  find(count?: number): Promise<DocumentType<OfferSummaryEntity>[]>;
+  find(count: number, userId?: string): Promise<OfferSummaryEntity[]>;
   updateById(
     offerId: string,
-    dto: UpdateOfferDto
+    dto: UpdateOfferDto,
+    userId: string
   ): Promise<DocumentType<OfferEntity> | null>;
-  deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  deleteById(
+    offerId: string,
+    userId: string
+  ): Promise<DocumentType<OfferEntity> | null>;
   findPremOffersByTown(
-    userId: string,
+    userId: string | null,
     town: TownType
-  ): Promise<DocumentType<OfferSummaryEntity>[]>;
+  ): Promise<OfferSummaryEntity[]>;
   getUserFavorites(userId: string): Promise<DocumentType<OfferSummaryEntity>[]>;
   addFavorite(
     userId: string,
     offerId: string
   ): Promise<DocumentType<OfferSummaryEntity>>;
-  deleteFavorite(userId: string, offerId: string): Promise<void>;
+  deleteFavorite(userId: string, offerId: string): Promise<boolean>;
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateRating(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }
