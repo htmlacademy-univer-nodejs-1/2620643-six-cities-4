@@ -11,7 +11,6 @@
   "scripts": {
     "server": "json-server mocks/mock-server-data.json",
     "start": "npm run build && node ./dist/main.rest.js",
-    "start:dev": "nodemon",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",

@@ -3,15 +3,16 @@ import { getRandomItem } from '../../helpers/common.js';
 import { MockServerData } from '../../types/mock-server-data.type.js';
 import { OfferGenerator } from '../../types/offer-generator.interface.js';
 
-export class TSVOfferGenerator implements OfferGenerator{
-  constructor(private readonly mockData: MockServerData){}
+export class TSVOfferGenerator implements OfferGenerator {
+  constructor(private readonly mockData: MockServerData) {}
 
   public generate() {
     const title = getRandomItem(this.mockData.titles);
     const description = getRandomItem(this.mockData.descriptions);
     const date = getRandomItem(this.mockData.dates);
     const town = getRandomItem(this.mockData.towns);
-    const coordinates = this.mockData.coordinates[this.mockData.towns.indexOf(town)];
+    const coordinates =
+      this.mockData.coordinates[this.mockData.towns.indexOf(town)];
     const image = getRandomItem(this.mockData.images);
     const gallery = getRandomItem(this.mockData.galleries);
     const isPremium = getRandomItem(this.mockData.isPremium);
@@ -48,10 +49,8 @@ export class TSVOfferGenerator implements OfferGenerator{
       stringAmenity,
       stringAuthor,
       commentCount,
-      stringCoordinates
+      stringCoordinates,
     ].join('\t');
-
-    console.log(resultOfGenerating);
 
     return resultOfGenerating;
   }
