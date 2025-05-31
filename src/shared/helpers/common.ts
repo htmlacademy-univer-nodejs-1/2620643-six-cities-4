@@ -40,3 +40,12 @@ export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
 export function getCoordinatesByTown(town: TownType) {
   return COORDINATES_BY_TOWN[town];
 }
+
+export function getEnumKeyByValue<T extends Record<string, string>>(
+  enumObj: T,
+  value: string
+): keyof T | undefined {
+  return (Object.keys(enumObj) as Array<keyof T>).find(
+    (key) => enumObj[key] === value
+  );
+}
