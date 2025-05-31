@@ -1,0 +1,216 @@
+{
+  "api": {
+    "titles": [
+      "Modern Loft in Berlin",
+      "Cozy Apartment in Paris",
+      "Luxury Hotel in Amsterdam",
+      "Seaside Villa in Barcelona",
+      "Charming Cottage in Rome"
+    ],
+    "descriptions": [
+      "Spacious loft with a great city view",
+      "Beautiful apartment in the heart of Paris",
+      "5-star hotel with great service",
+      "Luxurious villa with a private pool",
+      "Cozy cottage surrounded by nature"
+    ],
+    "dates": [
+      "2025-02-12",
+      "2025-02-13",
+      "2025-02-14",
+      "2025-02-15",
+      "2025-02-16"
+    ],
+    "towns": [
+      "Cologne",
+      "Paris",
+      "Amsterdam",
+      "Brussels",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "images": [
+      "image3.jpg",
+      "image1.jpg",
+      "image2.jpg",
+      "image4.jpg",
+      "image5.jpg"
+    ],
+    "galleries": [
+      [
+        "img1.jpg",
+        "img2.jpg",
+        "img3.jpg",
+        "img4.jpg",
+        "img5.jpg",
+        "img6.jpg"
+      ],
+      [
+        "img7.jpg",
+        "img8.jpg",
+        "img9.jpg",
+        "img10.jpg",
+        "img11.jpg",
+        "img12.jpg"
+      ],
+      [
+        "img13.jpg",
+        "img14.jpg",
+        "img15.jpg",
+        "img16.jpg",
+        "img17.jpg",
+        "img18.jpg"
+      ],
+      [
+        "img18.jpg",
+        "img19.jpg",
+        "img20.jpg",
+        "img21.jpg",
+        "img22.jpg",
+        "img23.jpg"
+      ],
+      [
+        "img23.jpg",
+        "img24.jpg",
+        "img25.jpg",
+        "img26.jpg",
+        "img27.jpg",
+        "img28.jpg"
+      ]
+    ],
+    "isPremium": [
+      false,
+      true
+    ],
+    "isFavorite": [
+      true,
+      false
+    ],
+    "ratings": [
+      4.5,
+      5,
+      4,
+      5,
+      4.2
+    ],
+    "apartmentTypes": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "roomCounts": [
+      3,
+      2,
+      1,
+      4,
+      2
+    ],
+    "guestCounts": [
+      6,
+      4,
+      2,
+      8,
+      4
+    ],
+    "costs": [
+      180,
+      120,
+      250,
+      400,
+      150
+    ],
+    "amenities": [
+      [
+        "Fridge",
+        "Breakfast",
+        "Washer"
+      ],
+      [
+        "Breakfast",
+        "Washer"
+      ],
+      [
+        "Towels",
+        "Fridge",
+        "Air conditioning"
+      ],
+      [
+        "Baby seat",
+        "Laptop friendly workspace",
+        "Air conditioning"
+      ],
+      [
+        "Fridge",
+        "Washer",
+        "Baby seat"
+      ]
+    ],
+    "authors": [
+      {
+        "name": "Charlie",
+        "mail": "charlie@mail.ru",
+        "avatar": "charlie.jpg",
+        "password": "123",
+        "type": "обычный"
+      },
+      {
+        "name": "Alice",
+        "mail": "alice@mail.ru",
+        "avatar": "alice.jpg",
+        "password": "123",
+        "type": "обычный"
+      },
+      {
+        "name": "Bob",
+        "mail": "bob@mail.ru",
+        "avatar": "bob.jpg",
+        "password": "123",
+        "type": "pro"
+      },
+      {
+        "name": "Diana",
+        "mail": "diana@mail.ru",
+        "avatar": "diana.jpg",
+        "password": "123",
+        "type": "pro"
+      },
+      {
+        "name": "Ethan",
+        "mail": "ethan@mail.ru",
+        "avatar": "ethan.jpg",
+        "password": "123",
+        "type": "pro"
+      }
+    ],
+    "commentCounts": [
+      0
+    ],
+    "coordinates": [
+      {
+        "latitude": 50.938361,
+        "longitude": 6.959974
+      },
+      {
+        "latitude": 48.85661,
+        "longitude": 2.351499
+      },
+      {
+        "latitude": 52.370216,
+        "longitude": 4.895168
+      },
+      {
+        "latitude": 50.846557,
+        "longitude": 4.351697
+      },
+      {
+        "latitude": 53.550341,
+        "longitude": 10.000654
+      },
+      {
+        "latitude": 51.225402,
+        "longitude": 6.776314
+      }
+    ]
+  }
+}
