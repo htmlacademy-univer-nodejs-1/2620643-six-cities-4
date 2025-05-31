@@ -1,10 +1,7 @@
 import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
 import { Command } from './command.interface.js';
 import { createOffer } from '../../shared/helpers/offer.js';
-import {
-  getCoordinatesByTown,
-  getErrorMessage,
-} from '../../shared/helpers/common.js';
+import { getErrorMessage } from '../../shared/helpers/common.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
 import { DatabaseClient } from '../../shared/libs/database-client/database-client.interface.js';
 import { Logger } from '../../shared/libs/logger/logger.interface.js';
@@ -16,7 +13,7 @@ import { DefaultUserService } from '../../shared/modules/user/default-user.servi
 import { UserModel } from '../../shared/modules/user/user.entity.js';
 import { MongoDatabaseClient } from '../../shared/libs/database-client/mongo.database-client.js';
 import { Offer } from '../../shared/types/index.js';
-import { DEFAULT_USER_PASSWORD } from './command.constant.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
 import { getMongoURI } from '../../shared/helpers/index.js';
 import { OfferSummaryModel } from '../../shared/modules/offer/offerSummary.entity.js';
 import { FavoriteModel } from '../../shared/modules/favorite/favorite.entity.js';
@@ -82,7 +79,7 @@ export class ImportCommand implements Command {
       guestCount: offer.guestCount,
       amenities: offer.amenities,
       commentCount: 0,
-      coordinates: getCoordinatesByTown(offer.town),
+      coordinates: offer.coordinates,
     });
   }
 
@@ -94,11 +91,11 @@ export class ImportCommand implements Command {
     filename: string,
     login: string,
     password: string,
-    port: string,
+    _port: string,
     dbname: string,
     salt: string
   ): Promise<void> {
-    const uri = getMongoURI(login, password, port, dbname);
+    const uri = getMongoURI(login, password, DEFAULT_DB_PORT, dbname);
     this.salt = salt;
 
     await this.databaseClient.connect(uri);
