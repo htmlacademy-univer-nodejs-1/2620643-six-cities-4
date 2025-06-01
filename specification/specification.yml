@@ -469,7 +469,7 @@ components:
 
         isFavorite:
           type: boolean
-          example: true
+          example: false
 
         rating:
           type: number
@@ -568,7 +568,7 @@ components:
 
         isFavorite:
           type: boolean
-          example: true
+          example: false
 
         rating:
           type: number
